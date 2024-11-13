@@ -63,7 +63,7 @@ function loadChecklist() {
             const checkbox = document.createElement("input");
             checkbox.type = "checkbox";
             checkbox.checked = isChecked;
-            checkbox.addEventListener("change", () => toggleItem(itemKey, listItem));
+            checkbox.addEventListener("change", () => toggleItem(itemKey, listItem, item));
 
             // Label do item
             const label = document.createElement("label");
@@ -79,13 +79,16 @@ function loadChecklist() {
 }
 
 // Alternar o estado de cada item no localStorage e verificar conclusão
-function toggleItem(itemKey, listItem) {
+function toggleItem(itemKey, listItem, item) {
     const isChecked = !listItem.classList.toggle("active");
     listItem.querySelector("label").classList.toggle("checked", isChecked);
     localStorage.setItem(itemKey, isChecked);
 
     // Checar se todos os itens estão marcados
     checkCompletion();
+    
+    // Atualizar a lista de itens não feitos
+    updateUnfinishedItems();
 }
 
 // Função para verificar se todos os itens estão concluídos
@@ -108,5 +111,28 @@ function checkCompletion() {
     }
 }
 
+// Função para atualizar a lista de itens não feitos
+function updateUnfinishedItems() {
+    const unfinishedList = document.getElementById("unfinished-list");
+    unfinishedList.innerHTML = ""; // Limpar a lista antes de adicionar os itens não feitos
+
+    for (const category in checklistCategories) {
+        checklistCategories[category].forEach((item, index) => {
+            const itemKey = `${category}-${index}`;
+            const isChecked = localStorage.getItem(itemKey) === "true";
+
+            // Se o item não estiver marcado como concluído, adicionar à lista de não feitos
+            if (!isChecked) {
+                const unfinishedItem = document.createElement("li");
+                unfinishedItem.textContent = item;
+                unfinishedList.appendChild(unfinishedItem);
+            }
+        });
+    }
+}
+
 // Carregar o checklist ao abrir a página
 loadChecklist();
+
+// Atualizar a lista de itens não feitos ao carregar a página
+updateUnfinishedItems();

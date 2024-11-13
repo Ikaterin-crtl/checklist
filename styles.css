@@ -182,3 +182,67 @@ label {
     h2 { font-size: 1.3em; }
     #container { padding: 15px; }
 }
+
+
+
+/* Centralizando os títulos */
+h1, h2 {
+    text-align: center; /* Centraliza os títulos */
+    font-family: 'Poppins', sans-serif; /* Fonte do título */
+    color: #4B9A6D; /* Cor verde escuro */
+}
+
+/* Estilos gerais para a lista de itens faltantes */
+#unfinished-list {
+    list-style-type: none; /* Remove os marcadores da lista */
+    padding: 0;
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza a lista de itens */
+}
+
+/* Estilos para os itens não feitos */
+#unfinished-list li {
+    background-color: #DFF7D0; /* Verde menta suave */
+    color: #4B9A6D; /* Texto verde escuro */
+    border: 1px solid #A7D8A7; /* Borda suave verde menta */
+    border-radius: 5px;
+    padding: 10px;
+    margin: 5px 0;
+    font-size: 16px;
+    transition: all 0.3s ease; /* Transição suave para os efeitos */
+    width: 80%; /* Ajusta a largura do item */
+    max-width: 500px; /* Largura máxima para o item */
+    text-align: left; /* Alinha o texto à esquerda */
+}
+
+/* Efeito de brilho no quadrado do item ao passar o mouse */
+#unfinished-list li:hover {
+    box-shadow: 0 0 10px 3px #F5FF7D; /* Brilho verde limão */
+    transform: scale(1.05); /* Leve aumento de tamanho ao passar o mouse */
+}
+
+/* Quando o item estiver em foco ou ativo (ex: ao ser marcado) */
+#unfinished-list li.active {
+    background-color: #F5FF7D; /* Amarelo pastel */
+    color: #388E3C; /* Texto verde mais escuro */
+}
+
+/* Brilho apenas no quadrado do item não concluído */
+#unfinished-list li:not(.active) {
+    animation: glow 1.5s infinite ease-in-out; /* Brilho pulsante */
+}
+
+/* Animação de brilho pulsante para itens não ativos */
+@keyframes glow {
+    0% {
+        box-shadow: 0 0 5px 2px #DFF7D0; /* Começa suave */
+    }
+    50% {
+        box-shadow: 0 0 20px 5px #F5FF7D; /* Aumenta o brilho */
+    }
+    100% {
+        box-shadow: 0 0 5px 2px #DFF7D0; /* Retorna ao normal */
+    }
+}
