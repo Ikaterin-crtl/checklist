@@ -48,57 +48,58 @@ const checklistCategories = {
 
 // Função para carregar o checklist com categorias
 function loadChecklist() {
+    // Atualizar a lista de itens não concluídos
+    updateUnfinishedList();
+
     for (const category in checklistCategories) {
         const ulElement = document.getElementById(category);
         checklistCategories[category].forEach((item, index) => {
             const itemKey = `${category}-${index}`;
-            const isChecked = localStorage.getItem(itemKey) === "true";
 
             // Criando o item da lista
             const listItem = document.createElement("li");
             listItem.classList.add("checklist-item");
-            if (isChecked) listItem.classList.add("active");
 
             // Checkbox (invisível)
             const checkbox = document.createElement("input");
             checkbox.type = "checkbox";
+            checkbox.id = itemKey;
+
+            // Verificar se o item já foi marcado
+            const isChecked = localStorage.getItem(itemKey) === "true";
             checkbox.checked = isChecked;
-            checkbox.addEventListener("change", () => toggleItem(itemKey, listItem));
+            if (isChecked) {
+                listItem.classList.add("checked");
+            }
+
+            // Adicionar evento de clique
+            checkbox.addEventListener("change", () => toggleItem(itemKey, listItem, item));
 
             // Label do item
             const label = document.createElement("label");
             label.textContent = item;
-            if (isChecked) label.classList.add("checked");
 
-            // Adicionar elementos ao item da lista
+            // Adicionar checkbox e label no item
             listItem.appendChild(checkbox);
             listItem.appendChild(label);
-
-            // Tornar o item clicável (além da checkbox)
-            listItem.addEventListener("click", () => toggleItem(itemKey, listItem));
-
             ulElement.appendChild(listItem);
         });
     }
-
-    // Atualizar a lista de itens não concluídos
-    updateUnfinishedList();
 }
 
-// Alternar o estado de cada item no localStorage e verificar conclusão
-function toggleItem(itemKey, listItem) {
-    const isChecked = !listItem.classList.toggle("active");
-    listItem.querySelector("label").classList.toggle("checked", isChecked);
+// Função para alternar o estado de cada item
+function toggleItem(itemKey, listItem, item) {
+    const isChecked = !listItem.classList.toggle("checked");
     localStorage.setItem(itemKey, isChecked);
 
-    // Atualizar a lista de itens não concluídos
+    // Atualizar a lista de "O que falta?"
     updateUnfinishedList();
 
-    // Checar se todos os itens estão marcados
+    // Se todos os itens estiverem marcados, exibe a mensagem de conclusão
     checkCompletion();
 }
 
-// Função para verificar se todos os itens estão concluídos
+// Função para verificar se todos os itens estão marcados
 function checkCompletion() {
     const allCheckboxes = document.querySelectorAll("input[type='checkbox']");
     const allChecked = Array.from(allCheckboxes).every(checkbox => checkbox.checked);
