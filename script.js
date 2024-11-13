@@ -123,13 +123,14 @@ function updateUnfinishedList() {
     const unfinishedList = document.getElementById("unfinished-list");
     unfinishedList.innerHTML = ''; // Limpar a lista antes de adicionar os novos itens
 
+    // Iterar por todas as categorias e verificar os itens não concluídos
     for (const category in checklistCategories) {
         checklistCategories[category].forEach((item, index) => {
             const itemKey = `${category}-${index}`;
             const isChecked = localStorage.getItem(itemKey) === "true";
 
+            // Adicionar apenas os itens não marcados na lista de "O que falta"
             if (!isChecked) {
-                // Criando o item da lista de "O que falta?"
                 const listItem = document.createElement("li");
                 listItem.textContent = item;
                 unfinishedList.appendChild(listItem);
