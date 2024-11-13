@@ -18,7 +18,7 @@ const checklistCategories = {
         "1 cópia do CPF",
         "1 cópia do Cartão Nacional de Saúde (SUS)",
         "1 cópia da Carteira de Habilitação (se aplicável)",
-        "1 cópía do Certificado de Reservista (se aplicável)",
+        "1 cópia do Certificado de Reservista (se aplicável)",
         "1 cópia do Comprovante do PIS",
         "1 cópia do Título de Eleitor",
         "Certidão de Nascimento/Casamento ou Declaração Pública de união estável"
@@ -92,11 +92,18 @@ function toggleItem(itemKey, listItem, item) {
     const isChecked = !listItem.classList.toggle("checked");
     localStorage.setItem(itemKey, isChecked);
 
-    // Atualizar a lista de "O que falta?"
-    updateUnfinishedList();
-
-    // Se todos os itens estiverem marcados, exibe a mensagem de conclusão
-    checkCompletion();
+    // Se item for marcado, faz o efeito de ampliar e remove
+    if (isChecked) {
+        listItem.classList.add("expanded");
+        setTimeout(() => {
+            listItem.style.display = "none";
+            updateUnfinishedList();
+            checkCompletion();
+        }, 300); // Tempo do efeito de ampliação
+    } else {
+        listItem.classList.remove("expanded");
+        updateUnfinishedList();
+    }
 }
 
 // Função para verificar se todos os itens estão marcados
@@ -104,8 +111,9 @@ function checkCompletion() {
     const allCheckboxes = document.querySelectorAll("input[type='checkbox']");
     const allChecked = Array.from(allCheckboxes).every(checkbox => checkbox.checked);
 
-    // Se todos os itens estiverem marcados, exibe a mensagem e o efeito de explosão
+    // Se todos os itens estiverem marcados, esconde a seção "O que falta?"
     if (allChecked) {
+        document.getElementById("unfinished-section").style.display = "none";
         const message = document.getElementById("completion-message");
         const explosion = document.getElementById("completion-explosion");
 
