@@ -1,0 +1,184 @@
+/* Estilo Global */
+body {
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background: #F6F3F0; /* Fundo pastel claro */
+    color: #333;
+    padding: 20px;
+}
+
+/* Container Principal */
+#container {
+    background: #ffffff;
+    border: 2px solid #E0D5C3; /* Borda suave em tom pastel */
+    padding: 30px;
+    max-width: 700px;
+    width: 100%;
+    border-radius: 25px;
+    text-align: center;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Figuras geométricas de fundo */
+#container::before,
+#container::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.4;
+    z-index: -1;
+}
+
+#container::before {
+    width: 200px;
+    height: 200px;
+    background: #FFD1DC; /* Rosa pastel */
+    top: -80px;
+    left: -100px;
+}
+
+#container::after {
+    width: 300px;
+    height: 300px;
+    background: #B4E1E0; /* Azul pastel */
+    bottom: -120px;
+    right: -120px;
+}
+
+/* Título Principal */
+h1 {
+    font-size: 2.5em;
+    color: #E86A92; /* Rosa vibrante */
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 8px rgba(232, 106, 146, 0.3);
+}
+
+/* Subtítulos das Categorias */
+h2 {
+    font-size: 1.4em;
+    color: #80B1B2; /* Azul suave pastel */
+    margin-top: 20px;
+    text-align: left;
+    padding-bottom: 5px;
+    position: relative;
+}
+
+h2::after {
+    content: "";
+    width: 50px;
+    height: 3px;
+    background: #FFABAB; /* Laranja pastel para destaque */
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    border-radius: 2px;
+}
+
+/* Lista Principal */
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Estilos das Formas Geométricas para os Itens */
+li {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 15px;
+    border-radius: 15px 30px 15px 30px;
+    background-color: #FFF7D6; /* Fundo pastel amarelo */
+    color: #333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, transform 0.2s;
+    cursor: pointer;
+}
+
+li:nth-child(odd) {
+    border-radius: 20px 10px 30px 15px;
+    background-color: #FFE0CC; /* Laranja pastel */
+}
+
+li:nth-child(even) {
+    border-radius: 15px 25px 15px 25px;
+    background-color: #D1F7E3; /* Verde pastel */
+}
+
+li:hover {
+    transform: scale(1.05);
+}
+
+/* Brilho ao Clicar */
+li.active {
+    background-color: #FFE7B8;
+    box-shadow: 0 0 15px rgba(255, 221, 130, 0.6);
+}
+
+/* Checkbox Customizado */
+input[type="checkbox"] {
+    transform: scale(1.3);
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+/* Efeito de Concluído */
+label {
+    font-size: 1.1em;
+    flex: 1;
+    color: #727272;
+}
+.checked {
+    text-decoration: line-through;
+    color: #b8b1ad;
+}
+
+/* Mensagem Final */
+#completion-message {
+    display: none;
+    font-size: 2.5em;
+    color: #ffa07a;
+    margin-top: 20px;
+    animation: pop 1s ease-out forwards;
+}
+
+/* Explosão de Confete */
+@keyframes confetti {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-200px); opacity: 0; }
+}
+
+.explosion {
+    display: none;
+    font-size: 5em;
+    color: #ff6b6b;
+    animation: explode 1s ease forwards, confetti 1s ease-out forwards;
+}
+
+/* Animação Final */
+@keyframes pop {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes explode {
+    0% { transform: scale(0.5); opacity: 0; }
+    50% { transform: scale(1.5); opacity: 1; }
+    100% { transform: scale(1); opacity: 0; }
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+    h1 { font-size: 2em; }
+    h2 { font-size: 1.3em; }
+    #container { padding: 15px; }
+}
