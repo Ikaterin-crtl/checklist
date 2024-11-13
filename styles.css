@@ -50,11 +50,10 @@ body {
     bottom: -120px;
     right: -120px;
 }
-
 /* Título Principal */
 h1 {
     font-size: 2.5em;
-    color: #E86A92; /* Rosa vibrante */
+    color: #000000; /* Preto */
     margin-bottom: 15px;
     text-shadow: 2px 2px 8px rgba(232, 106, 146, 0.3);
 }
@@ -79,6 +78,7 @@ h2::after {
     bottom: -5px;
     border-radius: 2px;
 }
+
 
 /* Lista Principal */
 ul {
@@ -245,4 +245,53 @@ h1, h2 {
     100% {
         box-shadow: 0 0 5px 2px #DFF7D0; /* Retorna ao normal */
     }
+}
+
+/* Quando o item for marcado como concluído */
+#unfinished-list li.active {
+    background-color: #B9F7B9; /* Verde claro para concluído */
+    color: #388E3C; /* Texto verde mais escuro */
+    box-shadow: none; /* Remove o brilho */
+    transform: none; /* Sem animação de aumento */
+}
+
+/* Brilho pulsante para itens não concluídos */
+#unfinished-list li:not(.active) {
+    animation: glow 1.5s infinite ease-in-out; /* Brilho pulsante */
+}
+
+/* Animação de brilho pulsante para itens não ativos */
+@keyframes glow {
+    0% {
+        box-shadow: 0 0 5px 2px #DFF7D0; /* Começa suave */
+    }
+    50% {
+        box-shadow: 0 0 20px 5px #F5FF7D; /* Aumenta o brilho */
+    }
+    100% {
+        box-shadow: 0 0 5px 2px #DFF7D0; /* Retorna ao normal */
+    }
+}
+
+/* Estilo do checklist */
+.checklist-item {
+    color: #000000; /* Cor do texto preta */
+    font-size: 16px;
+}
+
+.checklist-item label {
+    color: #000000; /* Cor do texto das labels também preta */
+}
+
+.checklist-item input[type="checkbox"]:checked + label {
+    color: #000000; /* Certifica-se que o texto não muda quando marcado */
+}
+
+/* Estilo para os itens marcados */
+.checklist-item.active label {
+    color: #000000; /* Manter a cor preta mesmo quando marcado */
+}
+
+.checklist-item label.checked {
+    color: #000000; /* Cor preta quando o item está marcado */
 }

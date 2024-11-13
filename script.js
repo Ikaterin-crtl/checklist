@@ -1,4 +1,4 @@
-// Categorias e itens
+// Definição das categorias e itens
 const checklistCategories = {
     "exames-e-fotos": [
         "ASO Admissional",
@@ -18,7 +18,7 @@ const checklistCategories = {
         "1 cópia do CPF",
         "1 cópia do Cartão Nacional de Saúde (SUS)",
         "1 cópia da Carteira de Habilitação (se aplicável)",
-        "1 cópia do Certificado de Reservista (se aplicável)",
+        "1 cópía do Certificado de Reservista (se aplicável)",
         "1 cópia do Comprovante do PIS",
         "1 cópia do Título de Eleitor",
         "Certidão de Nascimento/Casamento ou Declaração Pública de união estável"
@@ -59,11 +59,11 @@ function loadChecklist() {
             listItem.classList.add("checklist-item");
             if (isChecked) listItem.classList.add("active");
 
-            // Checkbox
+            // Checkbox (invisível)
             const checkbox = document.createElement("input");
             checkbox.type = "checkbox";
             checkbox.checked = isChecked;
-            checkbox.addEventListener("change", () => toggleItem(itemKey, listItem, item));
+            checkbox.addEventListener("change", () => toggleItem(itemKey, listItem));
 
             // Label do item
             const label = document.createElement("label");
@@ -73,34 +73,41 @@ function loadChecklist() {
             // Adicionar elementos ao item da lista
             listItem.appendChild(checkbox);
             listItem.appendChild(label);
+
+            // Tornar o item clicável (além da checkbox)
+            listItem.addEventListener("click", () => toggleItem(itemKey, listItem));
+
             ulElement.appendChild(listItem);
         });
     }
+
+    // Atualizar a lista de itens não concluídos
+    updateUnfinishedList();
 }
 
 // Alternar o estado de cada item no localStorage e verificar conclusão
-function toggleItem(itemKey, listItem, item) {
+function toggleItem(itemKey, listItem) {
     const isChecked = !listItem.classList.toggle("active");
     listItem.querySelector("label").classList.toggle("checked", isChecked);
     localStorage.setItem(itemKey, isChecked);
 
+    // Atualizar a lista de itens não concluídos
+    updateUnfinishedList();
+
     // Checar se todos os itens estão marcados
     checkCompletion();
-    
-    // Atualizar a lista de itens não feitos
-    updateUnfinishedItems();
 }
 
 // Função para verificar se todos os itens estão concluídos
 function checkCompletion() {
     const allCheckboxes = document.querySelectorAll("input[type='checkbox']");
     const allChecked = Array.from(allCheckboxes).every(checkbox => checkbox.checked);
-    
+
     // Se todos os itens estiverem marcados, exibe a mensagem e o efeito de explosão
     if (allChecked) {
         const message = document.getElementById("completion-message");
         const explosion = document.getElementById("completion-explosion");
-        
+
         message.style.display = "block";
         explosion.style.display = "block";
 
@@ -111,21 +118,21 @@ function checkCompletion() {
     }
 }
 
-// Função para atualizar a lista de itens não feitos
-function updateUnfinishedItems() {
+// Função para atualizar a lista de itens não concluídos
+function updateUnfinishedList() {
     const unfinishedList = document.getElementById("unfinished-list");
-    unfinishedList.innerHTML = ""; // Limpar a lista antes de adicionar os itens não feitos
+    unfinishedList.innerHTML = ''; // Limpar a lista antes de adicionar os novos itens
 
     for (const category in checklistCategories) {
         checklistCategories[category].forEach((item, index) => {
             const itemKey = `${category}-${index}`;
             const isChecked = localStorage.getItem(itemKey) === "true";
 
-            // Se o item não estiver marcado como concluído, adicionar à lista de não feitos
             if (!isChecked) {
-                const unfinishedItem = document.createElement("li");
-                unfinishedItem.textContent = item;
-                unfinishedList.appendChild(unfinishedItem);
+                // Criando o item da lista de "O que falta?"
+                const listItem = document.createElement("li");
+                listItem.textContent = item;
+                unfinishedList.appendChild(listItem);
             }
         });
     }
@@ -133,6 +140,3 @@ function updateUnfinishedItems() {
 
 // Carregar o checklist ao abrir a página
 loadChecklist();
-
-// Atualizar a lista de itens não feitos ao carregar a página
-updateUnfinishedItems();
